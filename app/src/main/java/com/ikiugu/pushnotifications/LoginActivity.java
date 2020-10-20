@@ -2,20 +2,31 @@ package com.ikiugu.pushnotifications;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-public class LoginActivity extends AppCompatActivity {
+import com.ikiugu.pushnotifications.api.RetrofitClient;
+import com.ikiugu.pushnotifications.model.User;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class LoginActivity extends BaseActivity {
 
     private static final String CHANNEL_ID = "1";
     Button btnCreateUser;
     Button btnSendPush;
+    RetrofitClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         // hooks
         btnCreateUser = findViewById(R.id.btnCreateUser);
         btnSendPush = findViewById(R.id.btnSendPush);
+        client = RetrofitClient.getInstance();
 
         btnSendPush.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +66,46 @@ public class LoginActivity extends AppCompatActivity {
                         notificationManager.notify(1, builder2.build());
                     }
                 }, 5000);
+            }
+        });
+
+        btnCreateUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                client.getApi().createUser(new User()).enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful()) {
+                            User user = response.body();
+                            if (user.isSuccess()) {
+                                // save the info from the server to the api
+                                SharedPreferences.Editor editor = getSharedPrefsEditor();
+                                editor.putBoolean(Constants.LOGGED_IN, true);
+                                editor.putString(Constants.USER_NAME, user.getUserName());
+                                editor.putString(Constants.USER_TOKEN, user.getUserToken());
+                                editor.commit();
+
+                                // navigate to the home screen
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+
+                            } else {
+                                Toast.makeText(LoginActivity.this, user.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            try {
+                                Toast.makeText(LoginActivity.this, response.errorBody().string(), Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
