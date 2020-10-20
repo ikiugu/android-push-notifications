@@ -11,9 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.ikiugu.pushnotifications.api.RetrofitClient;
 import com.ikiugu.pushnotifications.model.User;
 
@@ -31,6 +34,7 @@ public class LoginActivity extends BaseActivity {
     Button btnCreateUser;
     Button btnSendPush;
     RetrofitClient client;
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class LoginActivity extends BaseActivity {
         editTextUserName = findViewById(R.id.editTextUserName);
         btnLogin = findViewById(R.id.btnLogin);
         client = RetrofitClient.getInstance();
+        coordinatorLayout = findViewById(R.id.coordinator);
 
         btnSendPush.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,9 +105,17 @@ public class LoginActivity extends BaseActivity {
                                 editor.putString(Constants.USER_TOKEN, user.getUserToken());
                                 editor.commit();
 
-                                // navigate to the home screen
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
+                                Snackbar snackbar = Snackbar.make(coordinatorLayout, "Account created successfully", BaseTransientBottomBar.LENGTH_INDEFINITE);
+                                snackbar.setAction("Ok", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        // navigate to the home screen
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                snackbar.show();
 
                             } else {
                                 Toast.makeText(LoginActivity.this, user.getErrorMessage(), Toast.LENGTH_SHORT).show();
@@ -156,10 +169,17 @@ public class LoginActivity extends BaseActivity {
                                 editor.putString(Constants.USER_TOKEN, user.getUserToken());
                                 editor.commit();
 
-                                // navigate to the home screen
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
+                                Snackbar snackbar = Snackbar.make(coordinatorLayout, "Welcome back", BaseTransientBottomBar.LENGTH_INDEFINITE);
+                                snackbar.setAction("Ok", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        // navigate to the home screen
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
 
+                                snackbar.show();
                             } else {
                                 Toast.makeText(LoginActivity.this, user.getErrorMessage(), Toast.LENGTH_SHORT).show();
                             }
