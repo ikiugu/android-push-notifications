@@ -11,7 +11,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button navigateToMessaging;
     Button navigateToWeather;
-    Button navigateToForex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +19,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         navigateToMessaging = findViewById(R.id.btnMessaging);
         navigateToWeather = findViewById(R.id.btnWeather);
-        navigateToForex = findViewById(R.id.btnForex);
 
         navigateToMessaging.setOnClickListener(this);
         navigateToWeather.setOnClickListener(this);
-        navigateToForex.setOnClickListener(this);
 
     }
 
@@ -34,12 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnMessaging:
                 navigate("messaging");
                 break;
-           /* case R.id.btnWeather:
+            case R.id.btnWeather:
                 navigate("weather");
                 break;
-            case R.id.btnForex:
-                navigate("forex");
-                break;*/
         }
     }
 
@@ -47,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = null;
         if (screen.equalsIgnoreCase("messaging")) {
             intent = new Intent(MainActivity.this, MessagingActivity.class);
+        } else if (screen.equalsIgnoreCase("weather")) {
+            intent = new Intent(MainActivity.this, WeatherActivity.class);
         }
 
         startActivity(intent);

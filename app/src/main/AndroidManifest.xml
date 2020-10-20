@@ -12,14 +12,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MessagingActivity"
+            android:name=".WeatherActivity"
+            android:label="Weather"
             android:parentActivityName=".MainActivity">
             <intent-filter>
-                <action android:name=".Messaging" />
+                <action android:name=".Weather" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".MessagingActivity"
+            android:label="@string/messaging"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name=".Messaging" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/login" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" />

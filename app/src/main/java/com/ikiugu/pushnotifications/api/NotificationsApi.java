@@ -19,7 +19,4 @@ public interface NotificationsApi {
     @POST("/subscribe/weather")
     Call<Subscription> subscribeToWeather(@Body Subscription subscription);
 
-    @POST("/subscribe/forex")
-    Call<Subscription> subscribeToForex(@Body Subscription subscription);
-
 }
