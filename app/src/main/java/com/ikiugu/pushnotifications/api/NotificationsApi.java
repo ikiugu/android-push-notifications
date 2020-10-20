@@ -11,7 +11,7 @@ import retrofit2.http.POST;
 
 public interface NotificationsApi {
     @POST("/users")
-    Call<User> createUser(@Body User user);
+    Call<User> handleUser(@Body User user);
 
     @POST("/sendMessage")
     Call<Notification> sendMessage(@Body Notification notification);

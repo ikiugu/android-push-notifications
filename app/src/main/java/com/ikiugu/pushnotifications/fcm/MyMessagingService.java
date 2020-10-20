@@ -28,9 +28,6 @@ public class MyMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
 
-        // send the new token to the backend
-        System.out.println("A");
-
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(Constants.USER_TOKEN, s);

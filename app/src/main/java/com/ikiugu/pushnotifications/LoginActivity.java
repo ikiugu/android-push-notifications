@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
@@ -24,6 +26,8 @@ import retrofit2.Response;
 public class LoginActivity extends BaseActivity {
 
     private static final String CHANNEL_ID = "1";
+    EditText editTextUserName;
+    Button btnLogin;
     Button btnCreateUser;
     Button btnSendPush;
     RetrofitClient client;
@@ -36,6 +40,8 @@ public class LoginActivity extends BaseActivity {
         // hooks
         btnCreateUser = findViewById(R.id.btnCreateUser);
         btnSendPush = findViewById(R.id.btnSendPush);
+        editTextUserName = findViewById(R.id.editTextUserName);
+        btnLogin = findViewById(R.id.btnLogin);
         client = RetrofitClient.getInstance();
 
         btnSendPush.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +87,63 @@ public class LoginActivity extends BaseActivity {
                 User user = new User();
                 user.setUserToken(userToken);
 
-                client.getApi().createUser(user).enqueue(new Callback<User>() {
+                client.getApi().handleUser(user).enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful()) {
+                            User user = response.body();
+                            if (user.isSuccess()) {
+                                // save the info from the server to the api
+                                SharedPreferences.Editor editor = getSharedPrefsEditor();
+                                editor.putBoolean(Constants.LOGGED_IN, true);
+                                editor.putString(Constants.USER_NAME, user.getUserName());
+                                editor.putString(Constants.USER_TOKEN, user.getUserToken());
+                                editor.commit();
+
+                                // navigate to the home screen
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+
+                            } else {
+                                Toast.makeText(LoginActivity.this, user.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            try {
+                                Toast.makeText(LoginActivity.this, response.errorBody().string(), Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userName = editTextUserName.getText().toString().trim();
+                if (TextUtils.isEmpty(userName)) {
+                    Toast.makeText(LoginActivity.this, "Please enter a user name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String token = getSharedPrefs().getString(Constants.USER_TOKEN, null);
+                if (TextUtils.isEmpty(token)) {
+                    Toast.makeText(LoginActivity.this, "No token found, please clear data and try again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                User user = new User();
+                user.setUserName(userName);
+                user.setUserToken(token);
+
+                client.getApi().handleUser(user).enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
