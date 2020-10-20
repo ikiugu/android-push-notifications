@@ -4,11 +4,11 @@ import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ikiugu.pushnotifications.api.RetrofitClient;
+
 public class BaseActivity extends AppCompatActivity {
     /**
      * Get an instance of the shared preferences editor
-     *
-     * @return -> editor
      */
     public SharedPreferences.Editor getSharedPrefsEditor() {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
@@ -17,10 +17,15 @@ public class BaseActivity extends AppCompatActivity {
 
     /**
      * Get shared prefs
-     *
-     * @return -> Shared preferences
      */
     public SharedPreferences getSharedPrefs() {
         return getApplicationContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, 0);
+    }
+
+    /**
+     * Get the retrofit client
+     */
+    public RetrofitClient getClient() {
+        return RetrofitClient.getInstance();
     }
 }

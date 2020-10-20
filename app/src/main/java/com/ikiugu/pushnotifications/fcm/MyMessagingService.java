@@ -3,6 +3,7 @@ package com.ikiugu.pushnotifications.fcm;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -12,8 +13,11 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.ikiugu.pushnotifications.Constants;
 import com.ikiugu.pushnotifications.MainActivity;
+import com.ikiugu.pushnotifications.MessagingActivity;
 import com.ikiugu.pushnotifications.R;
 import com.ikiugu.pushnotifications.api.RetrofitClient;
+
+import java.util.Map;
 
 public class MyMessagingService extends FirebaseMessagingService {
 
@@ -37,14 +41,22 @@ public class MyMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        Log.d("Ikiugu", "Message received");
 
+        sendNotification(remoteMessage);
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {
+
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("user_name", remoteMessage.getData().get("user_name"));
-        intent.putExtra("user_id", remoteMessage.getData().get("user_id"));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Map<String, String> map = remoteMessage.getData();
+        String screeName = map.get("screen");
+        if (screeName != null) {
+            if (screeName.equalsIgnoreCase("messages")) {
+                intent = new Intent(this, MessagingActivity.class);
+            }
+        }
+        intent.putExtra("load_data", "true");
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)

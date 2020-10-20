@@ -46,7 +46,7 @@ public class LoginActivity extends BaseActivity {
         btnSendPush = findViewById(R.id.btnSendPush);
         editTextUserName = findViewById(R.id.editTextUserName);
         btnLogin = findViewById(R.id.btnLogin);
-        client = RetrofitClient.getInstance();
+        client = getClient();
         coordinatorLayout = findViewById(R.id.coordinator);
 
         btnSendPush.setOnClickListener(new View.OnClickListener() {
