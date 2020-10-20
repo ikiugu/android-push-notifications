@@ -29,6 +29,8 @@ public class SplashScreenActivity extends BaseActivity {
                     startActivity(intent);
                 }
 
+                finish();
+
             }
         }, SPLASH_SCREEN_DELAY_TIME);
     }
