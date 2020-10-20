@@ -72,7 +72,16 @@ public class LoginActivity extends BaseActivity {
         btnCreateUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                client.getApi().createUser(new User()).enqueue(new Callback<User>() {
+
+                String userToken = getSharedPrefs().getString(Constants.USER_TOKEN, null);
+                if (userToken == null) {
+                    Toast.makeText(LoginActivity.this, "Token is null", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                User user = new User();
+                user.setUserToken(userToken);
+
+                client.getApi().createUser(user).enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {

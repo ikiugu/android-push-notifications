@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "620530076980",
+    "firebase_url": "https://notifications-dd5c7.firebaseio.com",
+    "project_id": "notifications-dd5c7",
+    "storage_bucket": "notifications-dd5c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620530076980:android:f52b14251f535eef422961",
+        "android_client_info": {
+          "package_name": "com.ikiugu.pushnotifications"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620530076980-6pl9tdqrlooplgfrkjkhkh0fmn7rg19j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn1iNk54EknW4el-4oQelqaAIt9AX3Fcg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620530076980-6pl9tdqrlooplgfrkjkhkh0fmn7rg19j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
