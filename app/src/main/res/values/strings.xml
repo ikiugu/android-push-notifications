@@ -23,4 +23,5 @@
 
     <!-- Sync Preferences -->
     <string name="sync_title">Receive push notifications</string>
+    <string name="settings">Settings</string>
 </resources>
