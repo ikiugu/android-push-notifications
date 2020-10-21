@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -49,6 +50,7 @@ public class LoginActivity extends BaseActivity {
         btnLogin = findViewById(R.id.btnLogin);
         client = getClient();
         coordinatorLayout = findViewById(R.id.coordinator);
+        boolean notificationsEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("sync", false);
 
         btnSendPush.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +63,9 @@ public class LoginActivity extends BaseActivity {
                 final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
 
                 // comment this line out if you need to display the notification after a set time below
-                notificationManager.notify(1, builder.build());
+                if (notificationsEnabled) {
+                    notificationManager.notify(1, builder.build());
+                }
 
                 // uncomment the code block below to set a timer to enable the notification to show when the app is in the background
                 /*new Handler().postDelayed(new Runnable() {
@@ -75,7 +79,10 @@ public class LoginActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        notificationManager.notify(1, builder2.build());
+                        if (notificationsEnabled) {
+                            notificationManager.notify(1, builder2.build());
+                        }
+
                     }
                 }, 5000);
             }
