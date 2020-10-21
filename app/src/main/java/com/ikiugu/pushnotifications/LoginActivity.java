@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -237,5 +238,10 @@ public class LoginActivity extends BaseActivity {
                 .setShowWhen(false) // disable the timestamp with false
                 .setTimeoutAfter(5000) // this automatically dismisses the notification
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return false;
     }
 }
