@@ -52,12 +52,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-        private void updateSetting(boolean o) {
+        private void updateSetting(boolean value) {
             RetrofitClient client = RetrofitClient.getInstance();
             String userName = getContext()
                     .getApplicationContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, 0).getString(Constants.USER_NAME, null);
             User user = new User();
-            user.setNotification(o);
+            user.setNotifications(value);
             user.setUserName(userName);
             client.getApi().handleNotifications(user).enqueue(new Callback<User>() {
                 @Override
@@ -65,7 +65,7 @@ public class SettingsActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         User user1 = response.body();
                         if (user1.isSuccess()) {
-                            if (o) {
+                            if (value) {
                                 Toast.makeText(getContext(), "Notifications back on. Re-subscribe to any topics you want", Toast.LENGTH_SHORT).show();
                             } else {
                                 SharedPreferences.Editor editor = getContext().getApplicationContext().getSharedPreferences(Constants.SHARED_PREFS_NAME, 0).edit();

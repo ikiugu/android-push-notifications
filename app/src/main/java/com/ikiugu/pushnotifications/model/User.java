@@ -3,7 +3,7 @@ package com.ikiugu.pushnotifications.model;
 public class User extends BaseModel {
     private String userName;
     private String userToken;
-    private boolean Notification;
+    private boolean notifications;
 
     public User() {
     }
@@ -24,11 +24,11 @@ public class User extends BaseModel {
         this.userToken = userToken;
     }
 
-    public boolean getNotification() {
-        return Notification;
+    public boolean isNotifications() {
+        return notifications;
     }
 
-    public void setNotification(boolean notification) {
-        Notification = notification;
+    public void setNotifications(boolean notifications) {
+        this.notifications = notifications;
     }
 }

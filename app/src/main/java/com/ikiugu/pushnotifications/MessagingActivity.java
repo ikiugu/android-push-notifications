@@ -66,6 +66,8 @@ public class MessagingActivity extends BaseActivity {
         coordinatorLayout = findViewById(R.id.coordinator);
         client = getClient();
 
+        txtRecipientName.requestFocus();
+
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +79,11 @@ public class MessagingActivity extends BaseActivity {
 
                 String recipientName = txtRecipientName.getText().toString().trim();
                 String recipientMessage = txtRecipientMessage.getText().toString().trim();
+
+                if (TextUtils.isEmpty(recipientName) || TextUtils.isEmpty(recipientMessage)) {
+                    Toast.makeText(MessagingActivity.this, "Please fill in both fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 Notification notification = new Notification();
                 notification.setSenderToken(token);
