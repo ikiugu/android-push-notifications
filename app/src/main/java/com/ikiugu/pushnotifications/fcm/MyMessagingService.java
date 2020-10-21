@@ -19,9 +19,9 @@ import com.ikiugu.pushnotifications.api.RetrofitClient;
 
 import java.util.Map;
 
-public class MyMessagingService extends FirebaseMessagingService {
+import static com.ikiugu.pushnotifications.LoginActivity.CHANNEL_ID;
 
-    private static final String CHANNEL_ID = "123";
+public class MyMessagingService extends FirebaseMessagingService {
     RetrofitClient client;
 
     public MyMessagingService() {

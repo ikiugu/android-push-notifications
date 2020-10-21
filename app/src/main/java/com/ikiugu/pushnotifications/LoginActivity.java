@@ -1,8 +1,11 @@
 package com.ikiugu.pushnotifications;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -15,7 +18,6 @@ import android.widget.Toast;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.preference.PreferenceManager;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -30,7 +32,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
 
-    private static final String CHANNEL_ID = "1";
+    public static final String CHANNEL_ID = "notifications_channel";
     EditText editTextUserName;
     Button btnLogin;
     Button btnCreateUser;
@@ -50,7 +52,8 @@ public class LoginActivity extends BaseActivity {
         btnLogin = findViewById(R.id.btnLogin);
         client = getClient();
         coordinatorLayout = findViewById(R.id.coordinator);
-        boolean notificationsEnabled = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("sync", false);
+
+        createNotificationChannel();
 
         btnSendPush.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,9 +66,7 @@ public class LoginActivity extends BaseActivity {
                 final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
 
                 // comment this line out if you need to display the notification after a set time below
-                if (notificationsEnabled) {
-                    notificationManager.notify(1, builder.build());
-                }
+                notificationManager.notify(1, builder.build());
 
                 // uncomment the code block below to set a timer to enable the notification to show when the app is in the background
                 /*new Handler().postDelayed(new Runnable() {
@@ -79,9 +80,8 @@ public class LoginActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (notificationsEnabled) {
-                            notificationManager.notify(1, builder2.build());
-                        }
+                        notificationManager.notify(1, builder2.build());
+
 
                     }
                 }, 5000);
@@ -224,7 +224,7 @@ public class LoginActivity extends BaseActivity {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true) // set this to remove it when tapped
                 .setShowWhen(false) // disable the timestamp with false
-                .setTimeoutAfter(5000) // this automatically dismisses the notification
+                //.setTimeoutAfter(5000) // this automatically dismisses the notification
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
     }
 
@@ -243,12 +243,28 @@ public class LoginActivity extends BaseActivity {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true) // set this to remove it when tapped
                 .setShowWhen(false) // disable the timestamp with false
-                .setTimeoutAfter(5000) // this automatically dismisses the notification
+                //.setTimeoutAfter(5000) // this automatically dismisses the notification
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return false;
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
