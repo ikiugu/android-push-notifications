@@ -19,4 +19,7 @@ public interface NotificationsApi {
     @POST("/subscribe/weather")
     Call<Subscription> subscribeToWeather(@Body Subscription subscription);
 
+    @POST("/handleNotifications")
+    Call<User> handleNotifications(@Body User user);
+
 }
