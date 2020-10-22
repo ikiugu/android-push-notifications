@@ -71,8 +71,8 @@ public class MessagingActivity extends BaseActivity {
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String token = getSharedPrefs().getString(Constants.USER_TOKEN, null);
-                if (token == null) {
+                String userName = getSharedPrefs().getString(Constants.USER_NAME, null);
+                if (userName == null) {
                     Toast.makeText(MessagingActivity.this, "The token is blank", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -86,7 +86,7 @@ public class MessagingActivity extends BaseActivity {
                 }
 
                 Notification notification = new Notification();
-                notification.setSenderToken(token);
+                notification.setSenderUserName(userName);
                 notification.setRecipientUserName(recipientName);
                 notification.setMessage(recipientMessage);
 

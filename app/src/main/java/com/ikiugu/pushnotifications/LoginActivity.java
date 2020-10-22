@@ -223,7 +223,7 @@ public class LoginActivity extends BaseActivity {
                 .setContentText("Sample body")
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true) // set this to remove it when tapped
-                .setShowWhen(false) // disable the timestamp with false
+                //.setShowWhen(false) // disable the timestamp with false
                 //.setTimeoutAfter(5000) // this automatically dismisses the notification
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
     }
@@ -234,7 +234,7 @@ public class LoginActivity extends BaseActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 
-        // build the notification
+        // build the notificationsendMessage
 
         return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification_icon)
@@ -242,7 +242,7 @@ public class LoginActivity extends BaseActivity {
                 .setContentText("Updated body")
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true) // set this to remove it when tapped
-                .setShowWhen(false) // disable the timestamp with false
+                //.setShowWhen(false) // disable the timestamp with false
                 //.setTimeoutAfter(5000) // this automatically dismisses the notification
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
     }

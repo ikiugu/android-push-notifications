@@ -1,19 +1,19 @@
 package com.ikiugu.pushnotifications.model;
 
 public class Notification extends BaseModel {
-    private String senderToken;
+    private String senderUserName;
     private String recipientUserName;
     private String message;
 
     public Notification() {
     }
 
-    public String getSenderToken() {
-        return senderToken;
+    public String getSenderUserName() {
+        return senderUserName;
     }
 
-    public void setSenderToken(String senderToken) {
-        this.senderToken = senderToken;
+    public void setSenderUserName(String senderUserName) {
+        this.senderUserName = senderUserName;
     }
 
     public String getRecipientUserName() {
