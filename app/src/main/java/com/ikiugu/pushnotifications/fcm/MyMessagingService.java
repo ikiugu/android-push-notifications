@@ -15,18 +15,12 @@ import com.ikiugu.pushnotifications.Constants;
 import com.ikiugu.pushnotifications.MainActivity;
 import com.ikiugu.pushnotifications.MessagingActivity;
 import com.ikiugu.pushnotifications.R;
-import com.ikiugu.pushnotifications.api.RetrofitClient;
 
 import java.util.Map;
 
 import static com.ikiugu.pushnotifications.LoginActivity.CHANNEL_ID;
 
 public class MyMessagingService extends FirebaseMessagingService {
-    RetrofitClient client;
-
-    public MyMessagingService() {
-        this.client = RetrofitClient.getInstance();
-    }
 
     @Override
     public void onNewToken(@NonNull String s) {
