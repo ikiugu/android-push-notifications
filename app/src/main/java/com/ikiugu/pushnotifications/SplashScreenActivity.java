@@ -19,15 +19,16 @@ public class SplashScreenActivity extends BaseActivity {
             public void run() {
                 SharedPreferences sharedPreferences = getSharedPrefs();
 
+                Intent intent = null;
                 if (sharedPreferences.getBoolean(Constants.LOGGED_IN, false)) {
                     // meaning user has been created and we have logged in
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
+                    intent = new Intent(getApplicationContext(), MainActivity.class);
                 } else {
                     // meaning no user has been created and we have not logged in
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
+                    intent = new Intent(getApplicationContext(), LoginActivity.class);
+
                 }
+                startActivity(intent);
 
                 finish();
 
