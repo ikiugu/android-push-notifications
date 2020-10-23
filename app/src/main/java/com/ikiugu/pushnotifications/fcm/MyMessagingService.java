@@ -35,7 +35,7 @@ public class MyMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        Log.d("Ikiugu", "Message received");
+        Log.d("messagingService", "Message received");
 
         sendNotification(remoteMessage);
     }
